@@ -6,13 +6,15 @@ The current release includes part of the framework implementation as patches to 
 
 ## Architecture
 
-The device-side **Agent Execution Service** exposes GUI actions and observations through MCP. Its internal **Resource Manager** uses foreground pressure, application sharing, and actual work in flight to control execution. Framework extensions implement the UI and rendering mechanisms.
-
 ![Bifacial-OS architecture: an Agent Host connects through MCP to the device-side Agent Execution Service, which contains interaction handling and resource management backed by framework extensions and OS mechanisms.](assets/architecture.svg)
 
 [Editable draw.io source](assets/architecture.drawio) · [PDF](assets/architecture.pdf)
 
-GUI input still reaches the application's UI callbacks and existing business logic. Shared-business coordination belongs inside the application execution path; application business methods are not exposed as direct agent commands. Resource decisions run inside the service rather than requiring the model to request CPU or memory changes.
+**Agent Host.** At the top, the Agent Host plans tasks, performs inference and selects GUI actions. It sends actions and observation requests to the mobile device through MCP and uses the returned observations to decide its next action.
+
+**Agent Execution Service.** On the device, the service manages tasks and target UI instances, checks requests, delivers input and returns observations. Its internal Resource Manager combines task demand and runtime state with foreground pressure to decide when agent work can proceed and how much CPU, GPU and memory it can use.
+
+**Framework and OS support.** At the bottom, Android framework extensions provide independent agent UI interaction, schedule UI updates and produce the requested observations with less rendering work. Actions enter the application's existing UI callbacks and business logic. OS scheduling, cgroups and memory reclamation provide the mechanisms for resource control. The service passes interaction requests and execution limits to these components and receives execution feedback and resource-pressure signals.
 
 ## Components and current contents
 
