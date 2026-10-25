@@ -1,0 +1,144 @@
+diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
+index af2c1f0288..3ae026e3ef 100644
+--- a/services/surfaceflinger/SurfaceFlinger.cpp
++++ b/services/surfaceflinger/SurfaceFlinger.cpp
+@@ -2951,6 +2951,16 @@ CompositeResultsPerDisplay SurfaceFlinger::composite(
+ 
+         // Add outputs for virtual displays.
+         if (display->isVirtual()) {
++            // Agent compose-bypass: if this is an agent-owned VD flagged for compose
++            // bypass, do NOT add it to the composition outputs. SF then performs zero
++            // composition work for it (no GPU, no output buffer), while its window /
++            // Activity / input are untouched (we never call into DisplayManager). This
++            // is the SF/video counterpart of the agent UI's GPU bypass.
++            if (isAgentComposeBypassed(display->getLayerStack())) {
++                ALOGV("AGENT_COMPOSE_BYPASS skipping VD layerStack=%u from composition",
++                      display->getLayerStack().id);
++                continue;
++            }
+             const Fps refreshRate = display->getAdjustedRefreshRate();
+ 
+             if (!refreshRate.isValid() ||
+@@ -6753,8 +6763,10 @@ status_t SurfaceFlinger::CheckTransactCodeCredentials(uint32_t code) {
+     }
+     // Numbers from 1000 to 1047 are currently used for backdoors. The code
+     // in onTransact verifies that the user is root, and has access to use SF.
+-    if (code >= 1000 && code <= 1047) {
+-        ALOGV("Accessing SurfaceFlinger through backdoor code: %u", code);
++    // 1050 is the agent compose-bypass backdoor (same root/SF-access guard in
++    // onTransact applies). Range extended to 1050 to cover it.
++    if (code >= 1000 && code <= 1050) {
++        ALOGE("AGENT_SF_BACKDOOR_RANGE code=%u allowed", code);
+         return OK;
+     }
+     ALOGE("Permission Denial: SurfaceFlinger did not recognize request code: %u", code);
+@@ -7310,6 +7322,20 @@ status_t SurfaceFlinger::onTransact(uint32_t code, const Parcel& data, Parcel* r
+                                                      Duration::fromNs(appDurationNs));
+                 return NO_ERROR;
+             }
++            case 1050: {
++                // Agent compose-bypass toggle. data: int32 layerStack (== logical
++                // display id of the agent VD), int32 enable (1=skip compositing this
++                // VD, 0=resume). Skips ONLY SF compositing for the agent VD; never
++                // touches display power / window visibility / input, so the agent
++                // Activity stays RESUMED and DisplayList perception keeps working.
++                const int32_t layerStack = data.readInt32();
++                const int32_t enable = data.readInt32();
++                if (layerStack < 0) {
++                    return BAD_VALUE;
++                }
++                setAgentComposeBypass(static_cast<uint32_t>(layerStack), enable != 0);
++                return NO_ERROR;
++            }
+         }
+     }
+     return err;
+@@ -8967,6 +8993,52 @@ void SurfaceFlinger::sfdo_forceClientComposition(bool enabled) {
+     scheduleRepaint();
+ }
+ 
++bool SurfaceFlinger::isAgentComposeBypassed(ui::LayerStack layerStack) {
++    std::lock_guard<std::mutex> lock(mAgentComposeBypassMutex);
++    const bool bypassed = !mAgentComposeBypassLayerStacks.empty() &&
++            mAgentComposeBypassLayerStacks.count(layerStack.id) > 0;
++    if (bypassed) {
++        mAgentComposeBypassSkipCounts[layerStack.id]++;
++    }
++    return bypassed;
++}
++
++void SurfaceFlinger::setAgentComposeBypass(uint32_t layerStack, bool enable) {
++    uint64_t skippedOutputs = 0;
++    nsecs_t enabledDurationNs = 0;
++    {
++        std::lock_guard<std::mutex> lock(mAgentComposeBypassMutex);
++        if (enable) {
++            mAgentComposeBypassLayerStacks.insert(layerStack);
++            mAgentComposeBypassSkipCounts[layerStack] = 0;
++            mAgentComposeBypassEnabledSince[layerStack] = systemTime(SYSTEM_TIME_MONOTONIC);
++        } else {
++            const auto count = mAgentComposeBypassSkipCounts.find(layerStack);
++            if (count != mAgentComposeBypassSkipCounts.end()) {
++                skippedOutputs = count->second;
++            }
++            const auto since = mAgentComposeBypassEnabledSince.find(layerStack);
++            if (since != mAgentComposeBypassEnabledSince.end()) {
++                enabledDurationNs = systemTime(SYSTEM_TIME_MONOTONIC) - since->second;
++            }
++            mAgentComposeBypassLayerStacks.erase(layerStack);
++            mAgentComposeBypassSkipCounts.erase(layerStack);
++            mAgentComposeBypassEnabledSince.erase(layerStack);
++        }
++    }
++    ALOGI("AGENT_COMPOSE_BYPASS layerStack=%u enable=%d -> SF will %s compositing this VD",
++          layerStack, enable, enable ? "SKIP" : "RESUME");
++    if (!enable) {
++        ALOGI("AGENT_COMPOSE_BYPASS_SUMMARY layerStack=%u skipped_outputs=%" PRIu64
++              " enabled_ms=%.3f", layerStack, skippedOutputs,
++              enabledDurationNs / 1000000.0);
++    }
++    // Force a repaint so the change (skip / resume compositing the VD) takes effect
++    // on the next composition pass. When re-enabling compositing (enable=false) this
++    // also makes SF repaint the VD so its ImageReader gets a fresh frame for fallback.
++    scheduleRepaint();
++}
++
+ // gui::ISurfaceComposer
+ 
+ binder::Status SurfaceComposerAIDL::bootFinished() {
+diff --git a/services/surfaceflinger/SurfaceFlinger.h b/services/surfaceflinger/SurfaceFlinger.h
+index ec50bff43d..97bcbd816e 100644
+--- a/services/surfaceflinger/SurfaceFlinger.h
++++ b/services/surfaceflinger/SurfaceFlinger.h
+@@ -1442,6 +1442,31 @@ private:
+     std::atomic<nsecs_t> mDebugInTransaction = 0;
+     std::atomic_bool mForceFullDamage = false;
+ 
++    // Agent compose-bypass: layerStacks (== logical display ids) of agent-owned
++    // VirtualDisplays whose composition SurfaceFlinger should SKIP. When a VD's
++    // layerStack is in this set, it is NOT added to the composition outputs, so SF
++    // performs zero composition work for it (no GPU, no output buffer to its
++    // ImageReader) and any video/SurfaceView producers on it back-pressure. This is
++    // the SF/video counterpart of the agent UI's GPU bypass: it touches ONLY SF
++    // compositing for the agent VD and never the display power state / window
++    // visibility / input, so the agent Activity stays RESUMED, keeps receiving input,
++    // and DisplayList perception (which does not need the output surface) keeps
++    // working. Toggled via backdoor onTransact code 1050.
++    //
++    // Guarded by its OWN mutex (NOT mStateLock): the composite() loop reads it every
++    // frame and a binder thread writes it via the 1050 backdoor; a dedicated mutex
++    // makes this provably race-free without any assumption about whether composite()
++    // holds mStateLock (it uses FTL_FAKE_GUARD, which asserts but does not lock).
++    mutable std::mutex mAgentComposeBypassMutex;
++    std::unordered_set<uint32_t> mAgentComposeBypassLayerStacks;
++    std::unordered_map<uint32_t, uint64_t> mAgentComposeBypassSkipCounts;
++    std::unordered_map<uint32_t, nsecs_t> mAgentComposeBypassEnabledSince;
++    // Returns true if this display is an agent VD currently flagged for compose
++    // bypass. A true result also records one skipped composition output.
++    // Thread-safe (locks mAgentComposeBypassMutex).
++    bool isAgentComposeBypassed(ui::LayerStack);
++    void setAgentComposeBypass(uint32_t layerStack, bool enable);
++
+     bool mLayerCachingEnabled = false;
+     bool mBackpressureGpuComposition = false;
+ 

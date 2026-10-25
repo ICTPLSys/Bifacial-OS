@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mxfile host="app.diagrams.net" version="32.5.5" type="device">
+  <diagram id="bifacial-architecture" name="Architecture">
+    <mxGraphModel dx="1100" dy="892" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="892" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Bifacial-OS architecture" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=32;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1020" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="host" value="" style="rounded=1;arcSize=5;html=0;whiteSpace=wrap;fillColor=#F4F6F9;strokeColor=#92A0B1;strokeWidth=1.5;dashed=0;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="48" y="82" width="1004" height="78" as="geometry"/>
+        </mxCell>
+        <mxCell id="host-title" value="Agent Host" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="host">
+          <mxGeometry x="24" y="17" width="250" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="host-body" value="Planning, inference and GUI action selection" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=24;fontColor=#526277;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="host">
+          <mxGeometry x="300" y="17" width="680" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="device" value="" style="rounded=1;arcSize=5;html=0;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#9BA8B7;strokeWidth=1.5;dashed=0;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="24" y="218" width="1052" height="610" as="geometry"/>
+        </mxCell>
+        <mxCell id="device-label" value="MOBILE DEVICE" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=18;fontColor=#526277;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="device">
+          <mxGeometry x="24" y="12" width="320" height="28" as="geometry"/>
+        </mxCell>
+        <mxCell id="service" value="" style="rounded=1;arcSize=5;html=0;whiteSpace=wrap;fillColor=#F5F8FC;strokeColor=#8FA8C0;strokeWidth=1.5;dashed=0;container=1;collapsible=0;" vertex="1" parent="device">
+          <mxGeometry x="24" y="52" width="1004" height="240" as="geometry"/>
+        </mxCell>
+        <mxCell id="service-title" value="Agent Execution Service" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="service">
+          <mxGeometry x="24" y="13" width="640" height="36" as="geometry"/>
+        </mxCell>
+        <mxCell id="service-status" value="SOURCE RELEASE PENDING" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=right;verticalAlign=middle;fontFamily=Arial;fontSize=18;fontColor=#526277;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="service">
+          <mxGeometry x="712" y="17" width="268" height="28" as="geometry"/>
+        </mxCell>
+        <mxCell id="server" value="" style="rounded=1;arcSize=5;html=0;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#86A2BE;strokeWidth=1.5;dashed=0;container=1;collapsible=0;" vertex="1" parent="service">
+          <mxGeometry x="24" y="64" width="330" height="148" as="geometry"/>
+        </mxCell>
+        <mxCell id="server-path" value="server/" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#315E8A;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="server">
+          <mxGeometry x="20" y="9" width="290" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="server-title" value="Interaction and tasks" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=24;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="server">
+          <mxGeometry x="20" y="38" width="290" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="server-body" value="Targets and request checks&#10;Input delivery and observations" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#526277;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="server">
+          <mxGeometry x="20" y="76" width="290" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="manager" value="" style="rounded=1;arcSize=5;html=0;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#86A2BE;strokeWidth=1.5;dashed=0;container=1;collapsible=0;" vertex="1" parent="service">
+          <mxGeometry x="650" y="64" width="330" height="148" as="geometry"/>
+        </mxCell>
+        <mxCell id="manager-path" value="manager/" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#315E8A;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="manager">
+          <mxGeometry x="20" y="9" width="290" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="manager-title" value="Resource Manager" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=24;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="manager">
+          <mxGeometry x="20" y="38" width="290" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="manager-body" value="CPU, GPU and memory&#10;Admission, execution, residency" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#526277;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="manager">
+          <mxGeometry x="20" y="76" width="290" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="demand" value="" edge="1" parent="service" source="server" target="manager" style="edgeStyle=none;rounded=0;html=0;strokeColor=#315E8A;strokeWidth=1.7;startArrow=none;startFill=1;endArrow=block;endFill=1;startSize=7;endSize=7;exitX=1;exitY=0.33;exitPerimeter=0;entryX=0;entryY=0.33;entryPerimeter=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="demand-label" value="Work demand and task state" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#315E8A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="service">
+          <mxGeometry x="370" y="76" width="264" height="28" as="geometry"/>
+        </mxCell>
+        <mxCell id="admission" value="" edge="1" parent="service" source="manager" target="server" style="edgeStyle=none;rounded=0;html=0;strokeColor=#315E8A;strokeWidth=1.7;startArrow=none;startFill=1;endArrow=block;endFill=1;startSize=7;endSize=7;exitX=0;exitY=0.72;exitPerimeter=0;entryX=1;entryY=0.72;entryPerimeter=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="admission-label" value="Admission decisions" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#315E8A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="service">
+          <mxGeometry x="376" y="179" width="252" height="28" as="geometry"/>
+        </mxCell>
+        <mxCell id="framework" value="" style="rounded=1;arcSize=5;html=0;whiteSpace=wrap;fillColor=#EFF7F3;strokeColor=#7FA697;strokeWidth=1.5;dashed=0;container=1;collapsible=0;" vertex="1" parent="device">
+          <mxGeometry x="24" y="398" width="654" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="framework-title" value="UI and rendering framework" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=26;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="framework">
+          <mxGeometry x="24" y="14" width="390" height="36" as="geometry"/>
+        </mxCell>
+        <mxCell id="framework-status" value="Based on Android 16" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=right;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#227568;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="framework">
+          <mxGeometry x="414" y="18" width="216" height="28" as="geometry"/>
+        </mxCell>
+        <mxCell id="second-title" value="Second UI" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=22;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="framework">
+          <mxGeometry x="24" y="68" width="198" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="second-body" value="Independent input&#10;and navigation" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#526277;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="framework">
+          <mxGeometry x="24" y="109" width="208" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="update-title" value="UI execution" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=22;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="framework">
+          <mxGeometry x="252" y="68" width="190" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="update-body" value="On-demand updates&#10;Piggyback traversal" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#526277;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="framework">
+          <mxGeometry x="252" y="109" width="190" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="render-title" value="Rendering" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=22;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="framework">
+          <mxGeometry x="468" y="68" width="162" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="render-body" value="DisplayList export&#10;GPU bypass" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#526277;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="framework">
+          <mxGeometry x="468" y="109" width="162" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="divider-1" edge="1" parent="framework" style="endArrow=none;startArrow=none;strokeColor=#CFDBD7;strokeWidth=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="234" y="66" as="sourcePoint"/>
+            <mxPoint x="234" y="168" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="divider-2" edge="1" parent="framework" style="endArrow=none;startArrow=none;strokeColor=#CFDBD7;strokeWidth=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="66" as="sourcePoint"/>
+            <mxPoint x="450" y="168" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="os" value="" style="rounded=1;arcSize=5;html=0;whiteSpace=wrap;fillColor=#F4F6F9;strokeColor=#9BA8B7;strokeWidth=1.5;dashed=0;container=1;collapsible=0;" vertex="1" parent="device">
+          <mxGeometry x="794" y="398" width="234" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="os-title" value="OS mechanisms" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=24;fontColor=#24364B;fontStyle=1;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="os">
+          <mxGeometry x="20" y="20" width="194" height="36" as="geometry"/>
+        </mxCell>
+        <mxCell id="os-body" value="Scheduling, cgroups&#10;Memory reclaim&#10;Pressure signals" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#526277;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="os">
+          <mxGeometry x="20" y="71" width="194" height="84" as="geometry"/>
+        </mxCell>
+        <mxCell id="mcp" value="" edge="1" parent="1" source="host" target="service" style="edgeStyle=none;rounded=0;html=0;strokeColor=#315E8A;strokeWidth=1.7;startArrow=block;startFill=1;endArrow=block;endFill=1;startSize=7;endSize=7;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="mcp-label" value="MCP: GUI actions and observations" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=22;fontColor=#315E8A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="570" y="172" width="460" height="34" as="geometry"/>
+        </mxCell>
+        <mxCell id="interaction" value="" edge="1" parent="device" source="server" target="framework" style="edgeStyle=none;rounded=0;html=0;strokeColor=#315E8A;strokeWidth=1.7;startArrow=block;startFill=1;endArrow=block;endFill=1;startSize=7;endSize=7;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0.2889908256880734;entryY=0;entryPerimeter=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="interaction-label" value="Input &amp; observations&#10;Execution feedback" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#315E8A;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="device">
+          <mxGeometry x="234" y="314" width="280" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="framework-controls" value="" edge="1" parent="device" source="manager" target="framework" style="edgeStyle=none;rounded=0;html=0;strokeColor=#227568;strokeWidth=1.7;startArrow=block;startFill=1;endArrow=block;endFill=1;startSize=7;endSize=7;exitX=0.14;exitY=1;exitPerimeter=0;entryX=0.9204892966360856;entryY=0;entryPerimeter=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="720.2" y="339"/>
+              <mxPoint x="626" y="339"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="framework-controls-label" value="Execution limits" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#227568;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="device">
+          <mxGeometry x="531" y="298" width="176" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="framework-feedback-label" value="Runtime state" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#227568;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="device">
+          <mxGeometry x="432" y="352" width="176" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="os-controls" value="" edge="1" parent="device" source="manager" target="os" style="edgeStyle=none;rounded=0;html=0;strokeColor=#227568;strokeWidth=1.7;startArrow=block;startFill=1;endArrow=block;endFill=1;startSize=7;endSize=7;exitX=0.71818;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="os-controls-label" value="Controls &amp;&#10;pressure" style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=20;fontColor=#227568;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="device">
+          <mxGeometry x="926" y="318" width="110" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="scope-note" value="Framework code is partially released; MCP server and resource manager code will follow." style="text;html=0;whiteSpace=nowrap;overflow=visible;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=18;fontColor=#526277;fontStyle=0;strokeColor=none;fillColor=none;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="842" width="1020" height="30" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
